@@ -1,0 +1,124 @@
+.current-weather {
+    margin-bottom: 2rem;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.city-name {
+    font-size: 2.2rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.weather-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.weather-icon {
+    width: 100px;
+    height: 100px;
+}
+
+.temperature {
+    font-size: 4.5rem;
+    font-weight: 700;
+}
+
+.weather-description {
+    font-size: 1.2rem;
+    text-transform: capitalize;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+}
+
+.weather-details {
+    display: flex;
+    justify-content: space-around;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1.5rem;
+    gap: 1rem;
+    border-radius: 15px;
+}
+
+.weather-app {
+    min-height: 100vh; /* Ocupa toda la altura de la pantalla */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto; /* Centra horizontalmente */
+    padding: 2rem 0;
+    box-sizing: border-box;
+}
+
+.weather-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 40px;
+    padding: 2rem;
+    box-shadow: var(--card-shadow);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+
+}
+
+.weather-card h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+@media screen and (max-width: 600px) {
+    .weather-card {
+        padding: 1.5rem;
+    }
+
+    .city-name {
+        font-size: 1.8rem;
+    }
+
+    .temperature {
+        font-size: 3.5rem;
+    }
+
+    .weather-icon {
+        width: 80px;
+        height: 80px;
+    }
+
+    .weather-details {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+}
+
+@media screen and (max-width: 480px) {
+    .city-name {
+        font-size: 1.5rem;
+    }
+
+    .temperature {
+        font-size: 2.5rem;
+    }
+
+    .weather-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .weather-details {
+        padding: 1rem;
+    }
+    
+        .weather-card {
+    width: 90%;
+    }
+}
+
