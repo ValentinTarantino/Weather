@@ -27,17 +27,45 @@ const App = () => {
       if (!currentWeatherResponse.ok) throw new Error('Ciudad no encontrada.');
       const currentWeatherData = await currentWeatherResponse.json();
       setCurrentWeather(currentWeatherData);
-      
+
       // Petición para el pronóstico de 5 días
       const forecastResponse = await fetch(
         `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric&lang=es`
       );
       const forecastData = await forecastResponse.json();
-      
-      // Filtro para obtener un pronóstico por día (a mediodía)
-      const dailyForecast = forecastData.list.filter(item => 
-        item.dt_txt.includes("12:00:00")
-      );
+
+      // Agrupar por día y calcular min/max
+      const dailyData = {};
+      forecastData.list.forEach(item => {
+        const date = item.dt_txt.split(' ')[0];
+        if (!dailyData[date]) {
+          dailyData[date] = {
+            min: item.main.temp_min,
+            max: item.main.temp_max,
+            icon: item.weather[0].icon,
+            description: item.weather[0].description,
+            date: date,
+            humidities: [item.main.humidity], //  humedades
+          };
+        } else {
+          dailyData[date].min = Math.min(dailyData[date].min, item.main.temp_min);
+          dailyData[date].max = Math.max(dailyData[date].max, item.main.temp_max);
+          dailyData[date].humidities.push(item.main.humidity); // Agrega humedad
+        }
+      });
+
+      const today = new Date().toISOString().split('T')[0];
+      // Calcula el promedio de humedad para cada día
+      const dailyForecast = Object.values(dailyData)
+        .filter(day => day.date !== today)
+        .slice(0, 5)
+        .map(day => ({
+          ...day,
+          humidity: Math.round(
+            day.humidities.reduce((a, b) => a + b, 0) / day.humidities.length
+          ),
+        }));
+
       setForecast(dailyForecast);
 
     } catch (err) {

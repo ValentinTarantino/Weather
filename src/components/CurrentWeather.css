@@ -44,13 +44,13 @@
 }
 
 .weather-app {
-    min-height: 100vh; /* Ocupa toda la altura de la pantalla */
+    min-height: 100vh; 
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     max-width: 600px;
-    margin: 0 auto; /* Centra horizontalmente */
+    margin: 0 auto; 
     padding: 2rem 0;
     box-sizing: border-box;
 }
@@ -118,7 +118,7 @@
     }
     
         .weather-card {
-    width: 90%;
+        width: 90%;
     }
 }
 

@@ -15,7 +15,7 @@ const CurrentWeather = ({ data }) => {
             </div>
             <p className="weather-description">{weather[0].description}</p>
             <div className="weather-details">
-                <p>Sensación: {Math.round(main.feels_like)}°C</p>
+                <p>S.Térmica: {Math.round(main.feels_like)}°C</p>
                 <p>Humedad: {main.humidity}%</p>
                 <p>Viento: {wind.speed.toFixed(1)} m/s</p>
             </div>
