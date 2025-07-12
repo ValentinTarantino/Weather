@@ -1,32 +1,31 @@
 import './Forecast.css';
 
-const Forecast = ({ data }) => {
+const Forecast = ({ data, onDaySelect, selectedDate }) => {
     if (!data || data.length === 0) return null;
 
-    // Función para obtener el nombre del día
     const getDayName = (dateString) => {
-        const date = new Date(dateString);
+        const date = new Date(dateString + 'T12:00:00');
         return date.toLocaleDateString('es-ES', { weekday: 'long' });
     };
 
     return (
         <div className="forecast">
-            <h3 className="forecast-title">Pronóstico Próximos 5 Días</h3>
+            <h3 className="forecast-title">Pronóstico 5 Días</h3>
             <div className="forecast-container">
-                {data.map((item, index) => {
+                {data.map((item) => {
                     const iconUrl = `https://openweathermap.org/img/wn/${item.icon}@2x.png`;
+                    const isActive = item.date === selectedDate;
+                    
                     return (
-                        <div className="forecast-day" key={index}>
+                        <div 
+                            className={`forecast-day ${isActive ? 'active' : ''}`}
+                            key={item.date}
+                            onClick={() => onDaySelect(item)}
+                        >
                             <p className="day-name">{getDayName(item.date)}</p>
                             <img src={iconUrl} alt={item.description} className="forecast-icon" />
-                            <p className="day-info-row">
-                                <span className="day-temp">
-                                    <span style={{ color: "#ff6584" }}>↑{Math.round(item.max)}°C</span> / <span style={{ color: "#2196f3", fontWeight: 600 }}>↓{Math.round(item.min)}°C</span>
-                                </span>
-                                <span className="weather-description" style={{ fontSize: "0.95rem", margin: "0 8px" }}>{item.description}</span>
-                                <span className="day-humidity" style={{ color: "#6ec6ff", fontWeight: 500 }}>
-                                    Humedad: {item.humidity}%
-                                </span>
+                            <p className="day-temp">
+                                <span style={{ color: "#ff6584" }}>↑{Math.round(item.max)}°</span> / <span style={{ color: "#2196f3" }}>↓{Math.round(item.min)}°</span>
                             </p>
                         </div>
                     );

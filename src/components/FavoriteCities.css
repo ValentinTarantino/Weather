@@ -1,0 +1,57 @@
+.favorite-cities {
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.favorites-title {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.75rem;
+    text-align: left;
+    padding-left: 0.5rem;
+}
+
+.favorites-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.favorite-item {
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.favorite-city-button {
+    background: none;
+    border: none;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.favorite-city-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.favorite-remove-button {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 0.5rem 0.8rem;
+    cursor: pointer;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.favorite-remove-button:hover {
+    color: #ff6b6b;
+    background-color: rgba(255, 107, 107, 0.1);
+}

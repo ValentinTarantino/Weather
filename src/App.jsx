@@ -1,91 +1,82 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useWeather } from './hooks/useWeather'; 
 import SearchBar from './components/SearchBar';
 import CurrentWeather from './components/CurrentWeather';
 import Forecast from './components/Forecast';
+import HourlyChart from './components/HourlyChart';
+import FavoriteCities from './components/FavoriteCities';
 import Loader from './components/Loader';
 import './App.css';
 
 const App = () => {
-  const [currentWeather, setCurrentWeather] = useState(null);
-  const [forecast, setForecast] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const {
+    currentWeather,
+    forecast,
+    hourlyForecast,
+    selectedDayData,
+    selectedDate,
+    loading,
+    error,
+    fetchWeatherData,
+    handleDaySelect,
+    handleShowCurrent
+  } = useWeather();
 
-  const API_KEY = import.meta.env.VITE_API_KEY;
+  const [favorites, setFavorites] = useState([]);
 
-  const fetchWeatherData = async (city) => {
-    setLoading(true);
-    setError(null);
-    setCurrentWeather(null);
-    setForecast(null);
-
+  useEffect(() => {
     try {
-      // Petición para el clima actual
-      const currentWeatherResponse = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric&lang=es`
-      );
-      if (!currentWeatherResponse.ok) throw new Error('Ciudad no encontrada.');
-      const currentWeatherData = await currentWeatherResponse.json();
-      setCurrentWeather(currentWeatherData);
+      const storedFavorites = JSON.parse(localStorage.getItem('weatherAppFavorites'));
+      if (storedFavorites) { setFavorites(storedFavorites); }
+    } catch (error) { console.error("Error al cargar favoritos de localStorage:", error); }
+  }, []);
 
-      // Petición para el pronóstico de 5 días
-      const forecastResponse = await fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric&lang=es`
-      );
-      const forecastData = await forecastResponse.json();
+  useEffect(() => {
+    localStorage.setItem('weatherAppFavorites', JSON.stringify(favorites));
+  }, [favorites]);
 
-      // Agrupar por día y calcular min/max
-      const dailyData = {};
-      forecastData.list.forEach(item => {
-        const date = item.dt_txt.split(' ')[0];
-        if (!dailyData[date]) {
-          dailyData[date] = {
-            min: item.main.temp_min,
-            max: item.main.temp_max,
-            icon: item.weather[0].icon,
-            description: item.weather[0].description,
-            date: date,
-            humidities: [item.main.humidity], //  humedades
-          };
-        } else {
-          dailyData[date].min = Math.min(dailyData[date].min, item.main.temp_min);
-          dailyData[date].max = Math.max(dailyData[date].max, item.main.temp_max);
-          dailyData[date].humidities.push(item.main.humidity); // Agrega humedad
-        }
-      });
-
-      const today = new Date().toISOString().split('T')[0];
-      // Calcula el promedio de humedad para cada día
-      const dailyForecast = Object.values(dailyData)
-        .filter(day => day.date !== today)
-        .slice(0, 5)
-        .map(day => ({
-          ...day,
-          humidity: Math.round(
-            day.humidities.reduce((a, b) => a + b, 0) / day.humidities.length
-          ),
-        }));
-
-      setForecast(dailyForecast);
-
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
+  const toggleFavorite = (cityName) => {
+    if (favorites.includes(cityName)) { setFavorites(favorites.filter(fav => fav !== cityName)); } 
+    else { setFavorites([...favorites, cityName]); }
   };
 
+  const removeFavorite = (cityName) => {
+    setFavorites(favorites.filter(fav => fav !== cityName));
+  };
+  
   return (
     <div className="weather-app">
       <div className="weather-card">
         <h1>App del Clima</h1>
+        <FavoriteCities favorites={favorites} onSelectCity={fetchWeatherData} onRemoveCity={removeFavorite} />
         <SearchBar onSearch={fetchWeatherData} />
-        
+
         {loading && <Loader />}
         {error && <p className="error-message">{error}</p>}
         
-        {currentWeather && <CurrentWeather data={currentWeather} />}
-        {forecast && <Forecast data={forecast} />}
+        {!loading && !error && currentWeather && (
+          <div>
+            {selectedDayData.isForecast && (
+              <button onClick={handleShowCurrent} className="show-today-button">
+                ← Volver a Hoy
+              </button>
+            )}
+            
+            <CurrentWeather
+              data={selectedDayData}
+              favorites={favorites}
+              onToggleFavorite={toggleFavorite}
+            />
+
+            {hourlyForecast && <HourlyChart data={hourlyForecast} />}
+            
+            <Forecast
+              data={forecast}
+              onDaySelect={handleDaySelect}
+              selectedDate={selectedDate}
+            />
+          </div>
+        )}
 
         {!loading && !error && !currentWeather && (
           <p className="welcome-message">

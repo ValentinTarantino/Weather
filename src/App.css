@@ -1,2 +1,60 @@
+.show-today-button {
+    background-color: #7b68ee; 
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
+    align-self: flex-start; 
+    transition: background-color 0.3s ease;
+}
 
+.show-today-button:hover {
+    background-color: #5a52e0; 
+}
 
+.temperature-forecast {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.2;
+}
+
+.temperature-forecast .temp-max {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #ff6584; 
+}
+
+.temperature-forecast .temp-min {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #2196f3; 
+}
+
+.forecast-day {
+    background: rgba(156, 153, 153, 0.589);
+    padding: 1rem;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+    border: 2px solid transparent; 
+}
+
+.forecast-day:hover {
+    transform: translateY(-5px);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.forecast-day.active {
+    background-color: rgba(0, 0, 0, 0.45);
+    border-color: #7b68ee; 
+    transform: translateY(-5px);
+}
