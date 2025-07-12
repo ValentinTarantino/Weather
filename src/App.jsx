@@ -4,7 +4,7 @@ import SearchBar from './components/SearchBar';
 import CurrentWeather from './components/CurrentWeather';
 import Forecast from './components/Forecast';
 import HourlyChart from './components/HourlyChart';
-import FavoriteCities from './components/FavoriteCities';
+import FavoriteCities from './components/FavoriteCIties';
 import Loader from './components/Loader';
 import './App.css';
 
