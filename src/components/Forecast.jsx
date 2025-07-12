@@ -25,7 +25,9 @@ const Forecast = ({ data, onDaySelect, selectedDate }) => {
                             <p className="day-name">{getDayName(item.date)}</p>
                             <img src={iconUrl} alt={item.description} className="forecast-icon" />
                             <p className="day-temp">
-                                <span style={{ color: "#ff6584" }}>↑{Math.round(item.max)}°</span> / <span style={{ color: "#2196f3" }}>↓{Math.round(item.min)}°</span>
+                                <span className="temp-max-small">↑{Math.round(item.max)}°</span>
+                                <span className="temp-separator">/</span>
+                                <span className="temp-min-small">↓{Math.round(item.min)}°</span>
                             </p>
                         </div>
                     );

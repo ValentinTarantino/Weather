@@ -1,4 +1,5 @@
 import './CurrentWeather.css';
+
 import { WiThermometer, WiHumidity, WiStrongWind, WiSunrise, WiSunset } from 'react-icons/wi';
 import { FaStar, FaRegStar } from 'react-icons/fa';
 
@@ -18,13 +19,7 @@ const CurrentWeather = ({ data, favorites, onToggleFavorite }) => {
     };
 
     return (
-        <motion.div 
-            className="current-weather"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4 }}
-        >
+        <div className="current-weather">
             <div className="city-header">
                 <h2 className="city-name">{name}</h2>
                 {!isForecast && (
@@ -50,7 +45,7 @@ const CurrentWeather = ({ data, favorites, onToggleFavorite }) => {
                 {sys.sunrise && ( <p className="detail-item"><WiSunrise /> Amanecer: {formatTime(sys.sunrise)}</p> )}
                 {sys.sunset && ( <p className="detail-item"><WiSunset /> Atardecer: {formatTime(sys.sunset)}</p> )}
             </div>
-        </motion.div>
+        </div>
     );
 };
 
