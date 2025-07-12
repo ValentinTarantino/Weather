@@ -1,5 +1,4 @@
 import './CurrentWeather.css';
-import { motion } from 'framer-motion';
 import { WiThermometer, WiHumidity, WiStrongWind, WiSunrise, WiSunset } from 'react-icons/wi';
 import { FaStar, FaRegStar } from 'react-icons/fa';
 
